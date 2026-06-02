@@ -1,0 +1,1076 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simulasi SHB Ekonomi Kelas 10</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          animation: {
+            'fade-in-up': 'fadeInUp 0.5s ease-out',
+          },
+          keyframes: {
+            fadeInUp: {
+              '0%': { opacity: '0', transform: 'translateY(20px)' },
+              '100%': { opacity: '1', transform: 'translateY(0)' },
+            }
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-slate-900 text-slate-100 font-sans min-h-screen">
+
+  <!-- ================= SCREEN: START ================= -->
+  <div id="screen-start" class="min-h-screen flex flex-col items-center justify-center p-6">
+    <div class="max-w-3xl w-full bg-slate-800 p-8 md:p-12 rounded-2xl shadow-2xl text-center border border-slate-700 relative overflow-hidden">
+      <div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500"></div>
+      
+      <div class="mb-6 flex justify-center">
+         <svg class="w-20 h-20 text-teal-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+      </div>
+      
+      <h1 class="text-3xl md:text-5xl font-extrabold mb-4 tracking-tight text-white">
+        Simulasi SAT Ekonomi
+      </h1>
+      <h2 class="text-lg md:text-xl text-teal-300 font-semibold mb-6">
+        Materi: Lembaga Jasa Keuangan & Sistem Pembayaran
+      </h2>
+      
+      <div class="bg-slate-700/50 rounded-xl p-6 mb-8 text-left max-w-xl mx-auto border border-slate-600">
+        <h3 class="font-bold text-white mb-3">📋 Instruksi Latihan:</h3>
+        <ul class="list-disc pl-5 space-y-2 text-slate-300">
+          <li>Terdiri dari <strong>40 Soal Pilihan Ganda</strong> dan <strong>5 Soal Uraian</strong>.</li>
+          <li>Soal disesuaikan dengan materi Bank Sentral, OJK, dan Lembaga Keuangan.</li>
+          <li>Terdapat pembahasan otomatis setelah menjawab setiap soal pilihan ganda.</li>
+          <li>Kerjakan dengan cermat untuk mendapatkan skor maksimal.</li>
+        </ul>
+      </div>
+
+      <button onclick="startQuiz()" class="bg-teal-600 hover:bg-teal-500 text-white font-bold py-4 px-10 rounded-full text-lg shadow-lg shadow-teal-500/30 transition transform hover:-translate-y-1">
+        Mulai Latihan Sekarang
+      </button>
+      
+      <p class="mt-8 text-xs text-slate-500">
+        Sumber: Latsol SHB Ekonomi
+      </p>
+    </div>
+  </div>
+
+  <!-- ================= SCREEN: QUIZ ================= -->
+  <div id="screen-quiz" class="hidden min-h-screen py-8 px-4">
+    <div class="max-w-4xl mx-auto">
+      
+      <!-- Header & Progress -->
+      <div class="mb-6 flex items-center justify-between">
+        <div>
+          <span id="quiz-category" class="text-xs font-bold uppercase tracking-wider text-teal-400 bg-teal-900/30 px-3 py-1 rounded-full">
+            Kategori
+          </span>
+        </div>
+        <div id="quiz-progress-text" class="text-sm font-semibold text-slate-400">
+          Soal 1 / 40
+        </div>
+      </div>
+      <div class="w-full bg-slate-800 rounded-full h-2 mb-8 overflow-hidden">
+        <div id="quiz-progress-bar" class="bg-gradient-to-r from-emerald-500 to-teal-500 h-2 rounded-full transition-all duration-300 ease-out" style="width: 0%"></div>
+      </div>
+
+      <!-- Main Card -->
+      <div class="bg-slate-800 border border-slate-700 rounded-2xl shadow-xl overflow-hidden mb-6">
+        
+        <!-- Stimulus Box (Hidden if empty) -->
+        <div id="quiz-stimulus-container" class="bg-slate-700/30 p-5 md:p-8 border-b border-slate-700 text-slate-300 hidden">
+          <div class="flex gap-3 mb-3 items-center">
+            <svg class="w-5 h-5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+            <h3 class="font-semibold text-white">Kasus / Stimulus</h3>
+          </div>
+          <p id="quiz-stimulus" class="whitespace-pre-wrap leading-relaxed text-sm md:text-base"></p>
+        </div>
+
+        <!-- Question Box -->
+        <div class="p-5 md:p-8">
+          <h2 id="quiz-question" class="text-xl md:text-2xl font-semibold mb-6 leading-snug text-white">
+            Pertanyaan
+          </h2>
+
+          <!-- Options -->
+          <div id="quiz-options" class="space-y-3">
+            <!-- Options will be injected here -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Feedback & Next Button -->
+      <div id="quiz-feedback-container" class="hidden animate-fade-in-up">
+        <div id="quiz-feedback-box" class="p-6 rounded-2xl border mb-6">
+          <div class="flex items-center gap-3 mb-2">
+            <div id="quiz-feedback-icon"></div>
+            <h3 id="quiz-feedback-title" class="font-bold text-lg"></h3>
+          </div>
+          <div class="pl-10">
+            <p id="quiz-feedback-text" class="opacity-90 leading-relaxed text-sm md:text-base"></p>
+          </div>
+        </div>
+
+        <div class="flex justify-end pb-12">
+          <button onclick="handleNextQuestion()" id="quiz-next-btn" class="bg-teal-600 hover:bg-teal-500 text-white px-8 py-3 rounded-full font-bold shadow-lg flex items-center gap-2 transition">
+            Soal Berikutnya
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ================= SCREEN: RESULT ================= -->
+  <div id="screen-result" class="hidden min-h-screen flex flex-col items-center justify-center p-6">
+    <div class="max-w-2xl w-full bg-slate-800 p-8 md:p-12 rounded-3xl shadow-2xl text-center border border-slate-700">
+      
+      <h2 class="text-3xl font-bold mb-8 text-white">Latihan Selesai! 🎉</h2>
+      
+      <div class="relative w-48 h-48 mx-auto mb-8">
+        <svg class="w-full h-full" viewBox="0 0 36 36">
+          <path class="text-slate-700" stroke-width="3" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+          <path id="result-circle" class="text-teal-500" stroke-dasharray="0, 100" stroke-width="3" stroke-linecap="round" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+        </svg>
+        <div class="absolute inset-0 flex flex-col items-center justify-center">
+          <span id="result-score" class="text-5xl font-black text-white">0</span>
+          <span class="text-sm text-slate-400 mt-1">dari 100</span>
+        </div>
+      </div>
+
+      <div class="bg-slate-700/30 rounded-xl p-6 mb-8 border border-slate-600">
+        <p class="text-lg">
+          Kamu menjawab benar <strong id="result-correct" class="text-emerald-400 text-xl">0</strong> dari <strong id="result-total" class="text-teal-400 text-xl">40</strong> soal Pilihan Ganda.
+        </p>
+        <p id="result-message" class="mt-3 text-slate-400 italic">
+          Message
+        </p>
+      </div>
+
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <button onclick="goToEssay()" class="bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3 px-8 rounded-full shadow-lg transition">
+          Lanjut ke Soal Uraian 📝
+        </button>
+        <button onclick="startQuiz()" class="bg-slate-700 hover:bg-slate-600 text-white font-bold py-3 px-8 rounded-full transition">
+          Ulangi Pilihan Ganda 🔄
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= SCREEN: ESSAY ================= -->
+  <div id="screen-essay" class="hidden min-h-screen py-10 px-4">
+    <div class="max-w-4xl mx-auto">
+      <div class="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <h2 class="text-3xl font-bold text-white mb-2">Bagian B: Soal Uraian</h2>
+          <p class="text-slate-400">Kerjakan soal-soal berikut dengan cermat dan teliti.</p>
+        </div>
+        <button onclick="toggleEssayAnswers()" id="essay-toggle-btn" class="border border-teal-500 text-teal-400 hover:bg-teal-500/10 px-5 py-2 rounded-full font-medium transition self-start">
+          Lihat Kunci Jawaban
+        </button>
+      </div>
+
+      <div id="essay-container" class="space-y-6">
+        <!-- Essays will be injected here -->
+      </div>
+
+      <div class="mt-10 mb-20 text-center">
+        <button onclick="goHome()" class="bg-slate-700 hover:bg-slate-600 text-white font-bold py-3 px-8 rounded-full transition inline-flex items-center gap-2">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+          Kembali ke Beranda Utama
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // --- DATA SOAL PILIHAN GANDA EKONOMI (40 SOAL) ---
+    const questionsData = [
+      {
+        id: 1,
+        category: "Bank Sentral",
+        stimulus: "",
+        question: "Bank Indonesia memiliki tiga pilar utama dalam menjalankan tugasnya. Salah satu pilar tersebut yang berkaitan langsung dengan peredaran uang di masyarakat adalah...",
+        options: [
+          { key: "A", text: "Mengatur anggaran pendapatan dan belanja negara" },
+          { key: "B", text: "Memberikan kredit kepada pengusaha skala mikro" },
+          { key: "C", text: "Menjaga kelancaran sistem pembayaran" },
+          { key: "D", text: "Mengawasi operasional harian bank perkreditan rakyat" },
+          { key: "E", text: "Menentukan tingkat pajak penghasilan nasional" }
+        ],
+        correct: "C",
+        explanation: "Tugas Bank Indonesia diatur dalam UU No. 23 Tahun 1999, memiliki 3 pilar yaitu menetapkan kebijakan moneter, menjaga kelancaran sistem pembayaran, dan menjaga stabilitas sistem keuangan."
+      },
+      {
+        id: 2,
+        category: "Sistem Pembayaran",
+        stimulus: "",
+        question: "Seperangkat aturan, lembaga, dan mekanisme yang dipakai untuk memindahkan dana guna memenuhi kewajiban dari suatu kegiatan ekonomi disebut...",
+        options: [
+          { key: "A", text: "Kebijakan moneter" },
+          { key: "B", text: "Sistem pembayaran" },
+          { key: "C", text: "Sistem perbankan" },
+          { key: "D", text: "Otoritas jasa keuangan" },
+          { key: "E", text: "Kebijakan fiskal" }
+        ],
+        correct: "B",
+        explanation: "Sistem pembayaran mencakup seperangkat aturan, lembaga, dan mekanisme untuk memindahkan dana guna memenuhi kewajiban ekonomi."
+      },
+      {
+        id: 3,
+        category: "Bank Sentral",
+        stimulus: "",
+        question: "Untuk memastikan uang fisik yang beredar di masyarakat selalu dalam kondisi layak edar dan jumlahnya pas, Bank Indonesia menerapkan kebijakan yang disebut...",
+        options: [
+          { key: "A", text: "Tight Money Policy" },
+          { key: "B", text: "Easy Money Policy" },
+          { key: "C", text: "Cashless Society Policy" },
+          { key: "D", text: "Clean Money Policy" },
+          { key: "E", text: "Financial Inclusion Policy" }
+        ],
+        correct: "D",
+        explanation: "Clean Money Policy adalah kebijakan Bank Indonesia untuk memastikan uang fisik yang beredar dalam kondisi layak edar dan jumlahnya sesuai kebutuhan."
+      },
+      {
+        id: 4,
+        category: "Uang",
+        stimulus: "",
+        question: "Uang yang nilai bahan pembuatannya lebih kecil daripada nilai nominal yang tertera pada uang tersebut dinamakan...",
+        options: [
+          { key: "A", text: "Token Money" },
+          { key: "B", text: "Full Bodied Money" },
+          { key: "C", text: "Uang Giral" },
+          { key: "D", text: "Uang Kuasi" },
+          { key: "E", text: "Commodity Money" }
+        ],
+        correct: "A",
+        explanation: "Token Money (Uang Tanda) adalah uang yang nilai bahan pembuatnya lebih kecil daripada nilai nominal yang tertera."
+      },
+      {
+        id: 5,
+        category: "Lembaga Keuangan",
+        stimulus: "",
+        question: "Berdasarkan UU No. 10 Tahun 1998, badan usaha yang menghimpun dana dari masyarakat dalam bentuk simpanan dan menyalurkannya dalam bentuk kredit disebut...",
+        options: [
+          { key: "A", text: "Koperasi Simpan Pinjam" },
+          { key: "B", text: "Pegadaian" },
+          { key: "C", text: "Bank" },
+          { key: "D", text: "Modal Ventura" },
+          { key: "E", text: "Asuransi" }
+        ],
+        correct: "C",
+        explanation: "Menurut UU No. 10 Tahun 1998, bank adalah badan usaha yang menghimpun dana dari masyarakat dan menyalurkannya kembali dalam bentuk kredit."
+      },
+      {
+        id: 6,
+        category: "Lembaga Keuangan",
+        stimulus: "",
+        question: "Bank Perkreditan Rakyat (BPR) memiliki keterbatasan dibandingkan Bank Umum. Kegiatan yang tidak boleh dilakukan oleh BPR adalah...",
+        options: [
+          { key: "A", text: "Menerima tabungan dari masyarakat desa" },
+          { key: "B", text: "Memberikan kredit kepada UMKM" },
+          { key: "C", text: "Menyelenggarakan deposito berjangka" },
+          { key: "D", text: "Mengikuti kliring dan transaksi valuta asing" },
+          { key: "E", text: "Menyalurkan dana dalam bentuk pinjaman modal" }
+        ],
+        correct: "D",
+        explanation: "Bank Perkreditan Rakyat (BPR) tidak diperbolehkan mengikuti kliring dan tidak boleh melakukan transaksi valuta asing."
+      },
+      {
+        id: 7,
+        category: "Lembaga Keuangan Bukan Bank",
+        stimulus: "",
+        question: "Perusahaan yang memberikan jasa penanggulangan risiko (seperti jiwa, kesehatan, atau kendaraan) dengan mensyaratkan pembayaran iuran rutin disebut...",
+        options: [
+          { key: "A", text: "Perusahaan Asuransi" },
+          { key: "B", text: "Lembaga Dana Pensiun" },
+          { key: "C", text: "Perusahaan Anjak Piutang" },
+          { key: "D", text: "Perusahaan Modal Ventura" },
+          { key: "E", text: "Lembaga Penjamin Simpanan" }
+        ],
+        correct: "A",
+        explanation: "Perusahaan asuransi memberikan perlindungan terhadap risiko dengan sistem premi yang dibayarkan oleh nasabah."
+      },
+      {
+        id: 8,
+        category: "Otoritas Jasa Keuangan",
+        stimulus: "",
+        question: "Pihak yang mengawasi seluruh kegiatan di sektor jasa keuangan, termasuk perbankan, pasar modal, dan IKNB sejak tahun 2013 adalah...",
+        options: [
+          { key: "A", text: "Kementerian Keuangan" },
+          { key: "B", text: "Bank Indonesia" },
+          { key: "C", text: "Otoritas Jasa Keuangan" },
+          { key: "D", text: "Lembaga Penjamin Simpanan" },
+          { key: "E", text: "Bursa Efek Indonesia" }
+        ],
+        correct: "C",
+        explanation: "OJK dibentuk untuk mengatur dan mengawasi seluruh sektor jasa keuangan dan mulai mengambil alih pengawasan bank dari BI sejak tahun 2013."
+      },
+      {
+        id: 9,
+        category: "Lembaga Pembiayaan",
+        stimulus: "",
+        question: "Lembaga pembiayaan yang kegiatannya membiayai penyediaan barang modal untuk digunakan oleh nasabah dalam jangka waktu tertentu disebut...",
+        options: [
+          { key: "A", text: "Modal Ventura" },
+          { key: "B", text: "Anjak Piutang" },
+          { key: "C", text: "Dana Pensiun" },
+          { key: "D", text: "Leasing (Sewa Guna Usaha)" },
+          { key: "E", text: "Pegadaian" }
+        ],
+        correct: "D",
+        explanation: "Leasing (Sewa Guna Usaha) adalah lembaga pembiayaan yang menyediakan barang modal yang dapat digunakan oleh nasabah dengan sistem cicilan."
+      },
+      {
+        id: 10,
+        category: "Pasar Modal",
+        stimulus: "",
+        question: "Wadah yang menghimpun dana dari masyarakat untuk kemudian diinvestasikan dalam portofolio efek oleh Manajer Investasi adalah...",
+        options: [
+          { key: "A", text: "Reksa Dana" },
+          { key: "B", text: "Pasar Uang" },
+          { key: "C", text: "Koperasi" },
+          { key: "D", text: "Bursa Efek" },
+          { key: "E", text: "Modal Ventura" }
+        ],
+        correct: "A",
+        explanation: "Reksa dana merupakan wadah yang menghimpun dana masyarakat untuk diinvestasikan oleh manajer investasi dalam berbagai portofolio efek."
+      },
+      {
+        id: 11,
+        category: "Uang",
+        stimulus: "",
+        question: "Syarat teknis uang yang mengharuskan uang memiliki pecahan besar dan kecil agar memudahkan transaksi disebut...",
+        options: [
+          { key: "A", text: "Durability" },
+          { key: "B", text: "Portability" },
+          { key: "C", text: "Divisibility" },
+          { key: "D", text: "Stability" },
+          { key: "E", text: "Acceptability" }
+        ],
+        correct: "C",
+        explanation: "Divisibility berarti uang harus dapat dibagi menjadi pecahan kecil maupun besar agar memudahkan transaksi."
+      },
+      {
+        id: 12,
+        category: "Sistem Pembayaran Digital",
+        stimulus: "",
+        question: "Uang elektronik (e-money) yang tidak didaftarkan menggunakan KTP (unregistered) umumnya memiliki karakteristik...",
+        options: [
+          { key: "A", text: "Batas saldo maksimal sangat besar hingga puluhan juta" },
+          { key: "B", text: "Batas saldo kecil dan praktis untuk transaksi seperti e-Toll" },
+          { key: "C", text: "Hanya dapat digunakan untuk transfer antar bank internasional" },
+          { key: "D", text: "Terhubung langsung dengan buku tabungan giro" },
+          { key: "E", text: "Dilengkapi dengan fasilitas kredit tanpa agunan" }
+        ],
+        correct: "B",
+        explanation: "E-money yang tidak terdaftar (unregistered) memiliki batas saldo kecil dan biasanya digunakan untuk transaksi praktis seperti tol atau parkir."
+      },
+      {
+        id: 13,
+        category: "Perbankan Syariah",
+        stimulus: "",
+        question: "Prinsip syariah berupa akad titipan murni di mana barang atau uang yang dijaga oleh bank dan dapat diambil sewaktu-waktu disebut...",
+        options: [
+          { key: "A", text: "Murabahah" },
+          { key: "B", text: "Mudharabah" },
+          { key: "C", text: "Ijarah" },
+          { key: "D", text: "Wadiah" },
+          { key: "E", text: "Musyarakah" }
+        ],
+        correct: "D",
+        explanation: "Wadiah merupakan akad titipan murni dalam bank syariah di mana uang dapat diambil kapan saja oleh pemiliknya."
+      },
+      {
+        id: 14,
+        category: "LPS",
+        stimulus: "",
+        question: "Lembaga Penjamin Simpanan (LPS) menjamin saldo nasabah di bank yang ditutup. Batas maksimal saldo yang dijamin oleh LPS untuk setiap nasabah pada satu bank adalah...",
+        options: [
+          { key: "A", text: "Rp100.000.000" },
+          { key: "B", text: "Rp500.000.000" },
+          { key: "C", text: "Rp1.000.000.000" },
+          { key: "D", text: "Rp2.000.000.000" },
+          { key: "E", text: "Rp5.000.000.000" }
+        ],
+        correct: "D",
+        explanation: "LPS menjamin simpanan nasabah maksimal sebesar Rp2.000.000.000 per nasabah per bank."
+      },
+      {
+        id: 15,
+        category: "Pasar Modal",
+        stimulus: "",
+        question: "Salah satu profesi penunjang di pasar modal yang bertugas mengesahkan dokumen rapat RUPS adalah...",
+        options: [
+          { key: "A", text: "Kustodian" },
+          { key: "B", text: "Akuntan Publik" },
+          { key: "C", text: "Notaris" },
+          { key: "D", text: "Konsultan Hukum" },
+          { key: "E", text: "Wali Amanat" }
+        ],
+        correct: "C",
+        explanation: "Notaris bertugas mengesahkan dokumen penting seperti hasil rapat RUPS perusahaan emiten."
+      },
+      {
+        id: 16,
+        category: "Sistem Pembayaran",
+        stimulus: "",
+        question: "Perbedaan utama antara sistem BI-RTGS dan SKNBI terletak pada...",
+        options: [
+          { key: "A", text: "BI-RTGS untuk transaksi ritel, SKNBI untuk transaksi di atas Rp100 juta" },
+          { key: "B", text: "BI-RTGS penyelesaiannya tertunda, SKNBI real-time" },
+          { key: "C", text: "BI-RTGS khusus nilai besar dan real-time, SKNBI untuk nilai kecil/ritel" },
+          { key: "D", text: "BI-RTGS hanya untuk bank syariah, SKNBI untuk bank konvensional" },
+          { key: "E", text: "BI-RTGS menggunakan cek fisik, SKNBI menggunakan transfer elektronik" }
+        ],
+        correct: "C",
+        explanation: "BI-RTGS digunakan untuk transaksi bernilai besar secara real-time, sedangkan SKNBI digunakan untuk transaksi ritel atau bernilai lebih kecil."
+      },
+      {
+        id: 17,
+        category: "Alat Pembayaran",
+        stimulus: "",
+        question: "Dalam membedakan instrumen pembayaran, perbedaan mendasar antara kartu debit dan kartu kredit adalah...",
+        options: [
+          { key: "A", text: "Kartu debit memotong saldo tabungan sendiri, kartu kredit menggunakan dana pinjaman bank" },
+          { key: "B", text: "Kartu debit dikenakan bunga bulanan, kartu kredit bebas bunga selamanya" },
+          { key: "C", text: "Kartu debit hanya bisa digunakan di ATM, kartu kredit hanya di mesin EDC" },
+          { key: "D", text: "Kartu debit diterbitkan oleh OJK, kartu kredit diterbitkan oleh Bank Indonesia" },
+          { key: "E", text: "Kartu debit memiliki limit tak terbatas, kartu kredit dibatasi oleh saldo tabungan" }
+        ],
+        correct: "A",
+        explanation: "Kartu debit langsung memotong saldo tabungan, sedangkan kartu kredit menggunakan dana pinjaman dari bank."
+      },
+      {
+        id: 18,
+        category: "Lembaga Perbankan",
+        stimulus: "",
+        question: "Bank Konvensional dan Bank Syariah memiliki perbedaan sistem operasional utama, yaitu...",
+        options: [
+          { key: "A", text: "Bank Konvensional membagi hasil investasi, Bank Syariah menggunakan sistem bunga" },
+          { key: "B", text: "Bank Konvensional fokus pada UMKM, Bank Syariah fokus pada korporasi besar" },
+          { key: "C", text: "Bank Konvensional menggunakan sistem bunga, Bank Syariah menggunakan prinsip bagi hasil" },
+          { key: "D", text: "Bank Konvensional diawasi oleh OJK, Bank Syariah diawasi oleh MUI" },
+          { key: "E", text: "Bank Konvensional dilarang menerima giro, Bank Syariah diwajibkan menerima giro" }
+        ],
+        correct: "C",
+        explanation: "Bank konvensional menggunakan sistem bunga, sedangkan bank syariah menggunakan prinsip bagi hasil sesuai hukum Islam."
+      },
+      {
+        id: 19,
+        category: "Uang",
+        stimulus: "",
+        question: "Uang kartal dan uang giral dibedakan berdasarkan lembaga penerbitnya. Pernyataan yang tepat adalah...",
+        options: [
+          { key: "A", text: "Uang kartal diterbitkan oleh Bank Umum, uang giral oleh Bank Sentral" },
+          { key: "B", text: "Uang kartal diterbitkan oleh OJK, uang giral oleh Koperasi" },
+          { key: "C", text: "Uang kartal berupa cek dan bilyet giro, uang giral berupa kertas dan logam" },
+          { key: "D", text: "Uang kartal diterbitkan oleh Bank Sentral, uang giral oleh Bank Umum" },
+          { key: "E", text: "Uang kartal dijamin oleh emas murni, uang giral dijamin oleh perak" }
+        ],
+        correct: "D",
+        explanation: "Uang kartal diterbitkan oleh bank sentral (Bank Indonesia), sedangkan uang giral diterbitkan oleh bank umum dalam bentuk cek atau giro."
+      },
+      {
+        id: 20,
+        category: "Pasar Modal",
+        stimulus: "",
+        question: "Jika seorang investor menginginkan pendapatan tetap yang dibayarkan secara berkala dari pasar modal, instrumen yang paling tepat dibandingkan saham adalah...",
+        options: [
+          { key: "A", text: "Obligasi" },
+          { key: "B", text: "Reksa Dana Saham" },
+          { key: "C", text: "Right" },
+          { key: "D", text: "Warrant" },
+          { key: "E", text: "Option" }
+        ],
+        correct: "A",
+        explanation: "Obligasi adalah surat utang yang memberikan bunga tetap secara berkala hingga jatuh tempo."
+      },
+      {
+        id: 21,
+        category: "Otoritas Jasa Keuangan",
+        stimulus: "",
+        question: "Sejak berdirinya OJK, terjadi pemisahan tugas dengan Bank Indonesia. Pernyataan yang membedakan tugas keduanya adalah...",
+        options: [
+          { key: "A", text: "BI mengawasi kesehatan bank umum, OJK mencetak uang fisik" },
+          { key: "B", text: "BI menjaga stabilitas moneter dan pembayaran, OJK mengawasi lembaga jasa keuangan" },
+          { key: "C", text: "BI membekukan pinjol ilegal, OJK mengatur suku bunga acuan" },
+          { key: "D", text: "BI menjamin simpanan nasabah, OJK memberikan pinjaman ke pemerintah" },
+          { key: "E", text: "BI mengatur pasar modal, OJK mengatur industri asuransi" }
+        ],
+        correct: "B",
+        explanation: "BI berfokus pada stabilitas moneter dan sistem pembayaran, sedangkan OJK mengawasi lembaga jasa keuangan."
+      },
+      {
+        id: 22,
+        category: "Alat Pembayaran",
+        stimulus: "",
+        question: "Cek dan Bilyet Giro merupakan alat pembayaran nontunai berbasis warkat. Perbedaan spesifik keduanya adalah...",
+        options: [
+          { key: "A", text: "Cek harus dicairkan melalui ATM, Bilyet Giro lewat teller" },
+          { key: "B", text: "Cek dapat diuangkan secara tunai, Bilyet Giro hanya bisa dipindahbukukan" },
+          { key: "C", text: "Cek hanya diterbitkan oleh BI, Bilyet Giro oleh Bank Umum" },
+          { key: "D", text: "Cek digunakan untuk nominal miliaran, Bilyet Giro untuk nominal ribuan" },
+          { key: "E", text: "Cek tidak memiliki masa berlaku, Bilyet Giro berlaku selamanya" }
+        ],
+        correct: "B",
+        explanation: "Cek dapat diuangkan secara tunai, sedangkan bilyet giro hanya dapat dipindahbukukan ke rekening lain."
+      },
+      {
+        id: 23,
+        category: "Perbankan Syariah",
+        stimulus: "",
+        question: "Dalam bank syariah, terdapat prinsip Mudharabah dan Murabahah. Perbedaan keduanya adalah...",
+        options: [
+          { key: "A", text: "Mudharabah adalah sewa menyewa, Murabahah adalah modal patungan" },
+          { key: "B", text: "Mudharabah adalah jual beli, Murabahah adalah penitipan murni" },
+          { key: "C", text: "Mudharabah adalah perwakilan, Murabahah adalah pengalihan utang" },
+          { key: "D", text: "Mudharabah adalah bagi hasil, Murabahah adalah jual beli dengan margin untung" },
+          { key: "E", text: "Mudharabah adalah penjaminan, Murabahah adalah pertukaran valas" }
+        ],
+        correct: "D",
+        explanation: "Mudharabah adalah akad bagi hasil antara pemilik modal dan pengelola usaha, sedangkan Murabahah adalah akad jual beli dengan keuntungan (margin)."
+      },
+      {
+        id: 24,
+        category: "Pasar Modal",
+        stimulus: "",
+        question: "Seseorang yang memiliki Saham Biasa memiliki hak suara dalam RUPS, sedangkan pemilik Saham Preferen (Istimewa) memiliki keunggulan berupa...",
+        options: [
+          { key: "A", text: "Hak penuh untuk membubarkan perusahaan kapan saja" },
+          { key: "B", text: "Hak untuk menukar sahamnya menjadi obligasi pemerintah" },
+          { key: "C", text: "Dividen yang jumlahnya tetap dan dibayarkan lebih dahulu" },
+          { key: "D", text: "Kewajiban membayar utang perusahaan jika bangkrut" },
+          { key: "E", text: "Kebebasan dari pajak penghasilan selamanya" }
+        ],
+        correct: "C",
+        explanation: "Saham preferen memiliki dividen tetap yang dibayarkan lebih dahulu sebelum saham biasa."
+      },
+      {
+        id: 25,
+        category: "Lembaga Perbankan",
+        stimulus: "",
+        question: "Bank Primer dapat menciptakan alat pembayaran baru (uang kartal/giral), sedangkan Bank Sekunder tidak. Yang termasuk kelompok Bank Sekunder adalah...",
+        options: [
+          { key: "A", text: "Bank Indonesia dan Bank Mandiri" },
+          { key: "B", text: "Bank Central Asia dan Bank Negara Indonesia" },
+          { key: "C", text: "Bank Perkreditan Rakyat (BPR)" },
+          { key: "D", text: "Otoritas Jasa Keuangan (OJK)" },
+          { key: "E", text: "Lembaga Penjamin Simpanan (LPS)" }
+        ],
+        correct: "C",
+        explanation: "Bank sekunder adalah bank yang tidak menciptakan uang baru, contohnya Bank Perkreditan Rakyat (BPR)."
+      },
+      {
+        id: 26,
+        category: "Asuransi",
+        stimulus: "",
+        question: "Dalam mekanisme asuransi, nasabah wajib membayarkan sejumlah uang secara berkala kepada perusahaan asuransi yang disebut...",
+        options: [
+          { key: "A", text: "Dividen" },
+          { key: "B", text: "Premi" },
+          { key: "C", text: "Polis" },
+          { key: "D", text: "Klaim" },
+          { key: "E", text: "Margin" }
+        ],
+        correct: "B",
+        explanation: "Premi adalah sejumlah uang yang dibayarkan nasabah kepada perusahaan asuransi secara berkala."
+      },
+      {
+        id: 27,
+        category: "Lembaga Pembiayaan",
+        stimulus: "",
+        question: "Kegiatan anjak piutang (factoring) sangat membantu perusahaan dalam hal...",
+        options: [
+          { key: "A", text: "Menjual saham perusahaan ke pasar modal secara cepat" },
+          { key: "B", text: "Menyewa alat berat tanpa harus membelinya secara tunai" },
+          { key: "C", text: "Mencetak uang giral untuk membayar utang jangka panjang" },
+          { key: "D", text: "Menjual catatan utang pelanggannya untuk mendapat dana tunai cepat" },
+          { key: "E", text: "Mengasuransikan gudang pabrik dari risiko kebakaran" }
+        ],
+        correct: "D",
+        explanation: "Factoring (anjak piutang) membantu perusahaan mendapatkan dana cepat dengan menjual piutang kepada lembaga pembiayaan."
+      },
+      {
+        id: 28,
+        category: "Lembaga Pembiayaan",
+        stimulus: "",
+        question: "Karakteristik utama Modal Ventura yang membedakannya dari pinjaman bank biasa adalah...",
+        options: [
+          { key: "A", text: "Hanya meminjamkan uang tanpa batas waktu" },
+          { key: "B", text: "Meminta jaminan berupa sertifikat tanah yang nilainya dua kali lipat" },
+          { key: "C", text: "Ikut menyertakan modal (beli saham) dan terlibat dalam manajemen perusahaan" },
+          { key: "D", text: "Memberikan kredit khusus untuk pembelian kendaraan bermotor" },
+          { key: "E", text: "Menyalurkan dana pensiun kepada karyawan startup" }
+        ],
+        correct: "C",
+        explanation: "Modal ventura memberikan pembiayaan dengan cara menyertakan modal dan sering ikut terlibat dalam pengelolaan perusahaan."
+      },
+      {
+        id: 29,
+        category: "Lembaga Keuangan Mikro",
+        stimulus: "",
+        question: "Lembaga Keuangan Mikro (LKM) berfokus melayani segmen masyarakat yang...",
+        options: [
+          { key: "A", text: "Memiliki perusahaan multinasional berskala global" },
+          { key: "B", text: "Ingin melakukan perdagangan valuta asing dalam jumlah besar" },
+          { key: "C", text: "Membutuhkan pinjaman modal sangat kecil untuk usaha skala desa" },
+          { key: "D", text: "Bermain di bursa efek untuk mencari capital gain" },
+          { key: "E", text: "Membutuhkan fasilitas Letter of Credit (L/C) untuk ekspor" }
+        ],
+        correct: "C",
+        explanation: "Lembaga Keuangan Mikro fokus memberikan pembiayaan kepada usaha kecil atau masyarakat skala desa."
+      },
+      {
+        id: 30,
+        category: "Uang",
+        stimulus: "",
+        question: "Koin dinar emas zaman dahulu merupakan contoh dari...",
+        options: [
+          { key: "A", text: "Token Money" },
+          { key: "B", text: "Uang Kartal Kertas" },
+          { key: "C", text: "Uang Giral" },
+          { key: "D", text: "Full Bodied Money" },
+          { key: "E", text: "Uang Kuasi" }
+        ],
+        correct: "D",
+        explanation: "Dinar emas merupakan contoh full bodied money karena nilai bahan pembuatnya sama dengan nilai uangnya."
+      },
+      {
+        id: 31,
+        category: "Sistem Pembayaran",
+        stimulus: "",
+        question: "Seorang nasabah menemukan ada transaksi tak dikenal di rekeningnya setelah ia mengambil uang di mesin ATM pinggir jalan yang sepi. Modus kejahatan kartu yang memasang alat perekam rahasia di mulut mesin ATM disebut...",
+        options: [
+          { key: "A", text: "Phising" },
+          { key: "B", text: "Skimming" },
+          { key: "C", text: "Carding" },
+          { key: "D", text: "Ekstrapolasi" },
+          { key: "E", text: "Hacking" }
+        ],
+        correct: "B",
+        explanation: "Skimming adalah kejahatan dengan memasang alat perekam data kartu pada mesin ATM atau EDC."
+      },
+      {
+        id: 32,
+        category: "Produk Perbankan",
+        stimulus: "",
+        question: "Rina adalah seorang pelajar SMA yang diberi uang saku bulanan oleh orang tuanya. Ia ingin menyimpan uang tersebut di bank namun tetap bisa menariknya sewaktu-waktu untuk membeli buku. Produk perbankan yang paling tepat untuk Rina adalah...",
+        options: [
+          { key: "A", text: "Deposito Berjangka" },
+          { key: "B", text: "Sertifikat Deposito" },
+          { key: "C", text: "Tabungan" },
+          { key: "D", text: "Cek Perjalanan (Travellers Cheque)" },
+          { key: "E", text: "Letter of Credit" }
+        ],
+        correct: "C",
+        explanation: "Tabungan memungkinkan nasabah menyimpan uang dan menariknya sewaktu-waktu."
+      },
+      {
+        id: 33,
+        category: "Otoritas Jasa Keuangan",
+        stimulus: "",
+        question: "Banyak masyarakat tertipu oleh aplikasi pinjaman online (pinjol) yang menagih dengan cara intimidasi dan bunga mencekik. Dalam hal ini, lembaga yang berwenang memblokir pinjol ilegal untuk melindungi konsumen adalah...",
+        options: [
+          { key: "A", text: "Bank Indonesia" },
+          { key: "B", text: "Bursa Efek Indonesia" },
+          { key: "C", text: "Lembaga Penjamin Simpanan" },
+          { key: "D", text: "Otoritas Jasa Keuangan" },
+          { key: "E", text: "Perusahaan Modal Ventura" }
+        ],
+        correct: "D",
+        explanation: "OJK memiliki kewenangan untuk menindak dan memblokir pinjaman online ilegal yang merugikan masyarakat."
+      },
+      {
+        id: 34,
+        category: "Sistem Pembayaran Digital",
+        stimulus: "",
+        question: "Transisi menuju Less Cash Society melalui pembayaran digital memberikan banyak manfaat, namun juga memunculkan tantangan baru, yaitu...",
+        options: [
+          { key: "A", text: "Sulitnya menemukan double coincidence of wants" },
+          { key: "B", text: "Maraknya kejahatan siber (cybercrime) dan ancaman kebocoran data" },
+          { key: "C", text: "Beratnya membawa koin dalam jumlah banyak" },
+          { key: "D", text: "Meningkatnya peredaran uang kertas palsu di pasar tradisional" },
+          { key: "E", text: "Menurunnya daya beli masyarakat secara drastis" }
+        ],
+        correct: "B",
+        explanation: "Tantangan sistem pembayaran digital adalah meningkatnya risiko kejahatan siber dan kebocoran data."
+      },
+      {
+        id: 35,
+        category: "Investasi",
+        stimulus: "",
+        question: "Pak Budi adalah pensiunan yang memiliki uang pesangon. Ia ingin berinvestasi namun sangat takut kehilangan uang pokoknya (risiko rendah). Pilihan investasi yang paling cocok adalah...",
+        options: [
+          { key: "A", text: "Membeli saham perusahaan teknologi baru" },
+          { key: "B", text: "Deposito bank atau Reksa Dana Pendapatan Tetap" },
+          { key: "C", text: "Bermain opsi (Option) luar negeri" },
+          { key: "D", text: "Modal Ventura" },
+          { key: "E", text: "Membeli Warrant perusahaan tambang" }
+        ],
+        correct: "B",
+        explanation: "Deposito dan reksa dana pendapatan tetap memiliki risiko lebih rendah dibandingkan saham."
+      },
+      {
+        id: 36,
+        category: "Sistem Pembayaran",
+        stimulus: "",
+        question: "Apabila sistem BI-RTGS mengalami gangguan total selama satu hari kerja, dampak ekonomi paling signifikan yang akan terjadi adalah...",
+        options: [
+          { key: "A", text: "Masyarakat tidak bisa membeli barang receh di minimarket" },
+          { key: "B", text: "Seluruh mesin ATM di Indonesia kehabisan uang tunai" },
+          { key: "C", text: "Transfer antarperusahaan besar dan transaksi saham tertunda" },
+          { key: "D", text: "Uang logam kehilangan nilai" },
+          { key: "E", text: "Pencetakan uang emisi baru berhenti" }
+        ],
+        correct: "C",
+        explanation: "Gangguan pada BI-RTGS akan menghambat transaksi bernilai besar seperti transfer antar perusahaan dan transaksi pasar modal."
+      },
+      {
+        id: 37,
+        category: "Sejarah Uang",
+        stimulus: "",
+        question: "Sistem barter ditinggalkan karena sulit menemukan orang yang saling membutuhkan barang pada saat bersamaan. Istilah ekonomi untuk kelemahan ini adalah...",
+        options: [
+          { key: "A", text: "Store of value" },
+          { key: "B", text: "Portability issue" },
+          { key: "C", text: "Token money illusion" },
+          { key: "D", text: "Double coincidence of wants" },
+          { key: "E", text: "Stability of value" }
+        ],
+        correct: "D",
+        explanation: "Double coincidence of wants adalah kesulitan dalam barter karena harus menemukan orang yang memiliki kebutuhan yang sama secara bersamaan."
+      },
+      {
+        id: 38,
+        category: "Otoritas Jasa Keuangan",
+        stimulus: "",
+        question: "Program Literasi Keuangan yang dilakukan OJK bertujuan agar siswa...",
+        options: [
+          { key: "A", text: "Cepat meminjam uang di bank" },
+          { key: "B", text: "Bisa mencetak uang sendiri" },
+          { key: "C", text: "Paham menabung, investasi, dan tidak tertipu investasi bodong" },
+          { key: "D", text: "Menggantikan manajer investasi" },
+          { key: "E", text: "Tidak perlu menggunakan uang fisik lagi" }
+        ],
+        correct: "C",
+        explanation: "Program literasi keuangan OJK bertujuan meningkatkan pemahaman masyarakat tentang pengelolaan keuangan dan investasi yang aman."
+      },
+      {
+        id: 39,
+        category: "LPS",
+        stimulus: "",
+        question: "Ketika terjadi bank run, lembaga yang menjamin simpanan nasabah agar tidak panik adalah...",
+        options: [
+          { key: "A", text: "Bapepam" },
+          { key: "B", text: "LPS" },
+          { key: "C", text: "Modal Ventura" },
+          { key: "D", text: "Anjak Piutang" },
+          { key: "E", text: "KUPU" }
+        ],
+        correct: "B",
+        explanation: "LPS menjamin simpanan nasabah sehingga dapat mencegah kepanikan penarikan dana secara besar-besaran (bank run)."
+      },
+      {
+        id: 40,
+        category: "Perbankan Syariah",
+        stimulus: "",
+        question: "Bank syariah membeli motor lalu menjualnya kembali kepada nasabah dengan margin keuntungan yang disepakati dan dicicil tiap bulan. Akad ini disebut...",
+        options: [
+          { key: "A", text: "Mudharabah" },
+          { key: "B", text: "Musyarakah" },
+          { key: "C", text: "Ijarah" },
+          { key: "D", text: "Murabahah" },
+          { key: "E", text: "Hawalah" }
+        ],
+        correct: "D",
+        explanation: "Murabahah adalah akad jual beli dalam bank syariah di mana bank membeli barang yang dibutuhkan nasabah lalu menjualnya kembali dengan margin keuntungan."
+      }
+    ];
+
+    // --- DATA SOAL URAIAN EKONOMI (5 SOAL) ---
+    const essaysData = [
+      {
+        id: 1,
+        category: "Bank Indonesia vs OJK",
+        question: "Jelaskan perbedaan utama tugas dan wewenang antara Bank Indonesia (BI) dan Otoritas Jasa Keuangan (OJK)!",
+        answerHTML: "<p><strong>Bank Indonesia (BI):</strong> Bertugas mencapai dan memelihara kestabilan nilai rupiah melalui kebijakan moneter, menjaga kelancaran sistem pembayaran, dan stabilitas sistem keuangan makro.<br/><strong>Otoritas Jasa Keuangan (OJK):</strong> Bertugas menyelenggarakan sistem pengaturan dan pengawasan yang terintegrasi terhadap keseluruhan kegiatan di sektor jasa keuangan (sektor Perbankan, Pasar Modal, dan Industri Keuangan Non-Bank) secara mikro.</p>"
+      },
+      {
+        id: 2,
+        category: "Jenis Uang",
+        question: "Uang yang beredar di masyarakat dibagi menjadi Uang Kartal dan Uang Giral. Jelaskan perbedaan keduanya beserta contoh masing-masing!",
+        answerHTML: "<ul class='list-disc pl-5 space-y-1'><li><strong>Uang Kartal:</strong> Uang yang diterbitkan oleh Bank Sentral (BI) dan wajib diterima masyarakat sebagai alat pembayaran sah. Contoh: Uang kertas dan uang logam.</li><li><strong>Uang Giral:</strong> Uang atau tagihan yang diterbitkan oleh Bank Umum yang dapat digunakan sewaktu-waktu sebagai alat pembayaran. Contoh: Cek, Bilyet Giro, dan Telegrafic Transfer.</li></ul>"
+      },
+      {
+        id: 3,
+        category: "Lembaga Keuangan Bukan Bank",
+        question: "Apa tujuan utama dari kegiatan Asuransi dan apa yang dimaksud dengan 'Premi' serta 'Klaim'?",
+        answerHTML: "<p><strong>Tujuan Asuransi:</strong> Mengalihkan atau membagi risiko kerugian finansial yang mungkin terjadi di masa depan dari tertanggung (nasabah) kepada penanggung (perusahaan asuransi).<br/><br/><strong>Premi:</strong> Sejumlah uang yang wajib dibayarkan oleh nasabah kepada perusahaan asuransi secara berkala.<br/><strong>Klaim:</strong> Tuntutan ganti rugi yang diajukan nasabah kepada perusahaan asuransi sesuai dengan kerugian yang ditanggung dalam polis.</p>"
+      },
+      {
+        id: 4,
+        category: "Perbankan",
+        question: "Jelaskan letak perbedaan operasional antara Bank Konvensional dan Bank Syariah!",
+        answerHTML: "<p><strong>Bank Konvensional:</strong> Menjalankan usahanya dengan prinsip memberikan keuntungan melalui penerapan <em>Sistem Bunga</em> (interest rate) baik untuk simpanan maupun pinjaman.<br/><br/><strong>Bank Syariah:</strong> Menjalankan usahanya berlandaskan prinsip hukum Islam/Syariah, tidak menggunakan sistem bunga (riba), melainkan menggunakan sistem <em>Bagi Hasil</em> (Nisbah), Margin Keuntungan, atau Biaya Sewa (Ijarah).</p>"
+      },
+      {
+        id: 5,
+        category: "Sistem Pembayaran",
+        question: "Masyarakat masa kini perlahan beralih ke pembayaran digital (Less Cash Society). Sebutkan masing-masing 2 manfaat dan 2 tantangan/risiko dari transisi tersebut!",
+        answerHTML: "<p><strong>Manfaat:</strong><br/>1. Transaksi menjadi lebih cepat, praktis, dan higienis.<br/>2. Jejak transaksi tercatat dengan transparan, mencegah peredaran uang palsu.<br/><br/><strong>Tantangan/Risiko:</strong><br/>1. Ancaman kejahatan siber (cybercrime) seperti skimming, phising, atau peretasan data.<br/>2. Ketergantungan pada jaringan internet dan infrastruktur teknologi di pelosok daerah.</p>"
+      }
+    ];
+
+    // --- STATE VARIABLES ---
+    let currentQIndex = 0;
+    let score = 0;
+    let selectedAnswer = null;
+    let isAnswered = false;
+    let showEssayAnswer = false;
+
+    // --- DOM ELEMENTS ---
+    const screens = {
+      start: document.getElementById('screen-start'),
+      quiz: document.getElementById('screen-quiz'),
+      result: document.getElementById('screen-result'),
+      essay: document.getElementById('screen-essay')
+    };
+
+    // Quiz Elements
+    const elCategory = document.getElementById('quiz-category');
+    const elProgressText = document.getElementById('quiz-progress-text');
+    const elProgressBar = document.getElementById('quiz-progress-bar');
+    
+    const elStimulusContainer = document.getElementById('quiz-stimulus-container');
+    const elStimulus = document.getElementById('quiz-stimulus');
+    
+    const elQuestion = document.getElementById('quiz-question');
+    const elOptions = document.getElementById('quiz-options');
+    const elFeedbackContainer = document.getElementById('quiz-feedback-container');
+    const elFeedbackBox = document.getElementById('quiz-feedback-box');
+    const elFeedbackIcon = document.getElementById('quiz-feedback-icon');
+    const elFeedbackTitle = document.getElementById('quiz-feedback-title');
+    const elFeedbackText = document.getElementById('quiz-feedback-text');
+    const elNextBtn = document.getElementById('quiz-next-btn');
+
+    // Result Elements
+    const elResultScore = document.getElementById('result-score');
+    const elResultCorrect = document.getElementById('result-correct');
+    const elResultTotal = document.getElementById('result-total');
+    const elResultMessage = document.getElementById('result-message');
+    const elResultCircle = document.getElementById('result-circle');
+
+    // Essay Elements
+    const elEssayContainer = document.getElementById('essay-container');
+    const elEssayToggleBtn = document.getElementById('essay-toggle-btn');
+
+    // --- FUNCTIONS ---
+    function showScreen(screenName) {
+      Object.values(screens).forEach(s => s.classList.add('hidden'));
+      screens[screenName].classList.remove('hidden');
+      window.scrollTo(0, 0);
+    }
+
+    function startQuiz() {
+      currentQIndex = 0;
+      score = 0;
+      selectedAnswer = null;
+      isAnswered = false;
+      showScreen('quiz');
+      renderQuestion();
+    }
+
+    function renderQuestion() {
+      const q = questionsData[currentQIndex];
+      const progressPercent = ((currentQIndex + 1) / questionsData.length) * 100;
+
+      elCategory.textContent = q.category;
+      elProgressText.textContent = `Soal ${currentQIndex + 1} / ${questionsData.length}`;
+      elProgressBar.style.width = `${progressPercent}%`;
+      
+      // Hide stimulus box if not available
+      if (q.stimulus && q.stimulus.trim() !== '') {
+        elStimulusContainer.classList.remove('hidden');
+        elStimulus.textContent = q.stimulus;
+      } else {
+        elStimulusContainer.classList.add('hidden');
+      }
+      
+      elQuestion.textContent = q.question;
+      
+      elNextBtn.innerHTML = currentQIndex === questionsData.length - 1 
+        ? `Selesaikan Pilihan Ganda <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>`
+        : `Soal Berikutnya <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>`;
+
+      renderOptions();
+      elFeedbackContainer.classList.add('hidden');
+    }
+
+    function renderOptions() {
+      const q = questionsData[currentQIndex];
+      elOptions.innerHTML = '';
+
+      q.options.forEach(opt => {
+        const btn = document.createElement('button');
+        
+        let btnClass = "w-full text-left p-4 rounded-xl border border-slate-600 bg-slate-700/40 hover:bg-teal-600/20 transition duration-200 flex items-start gap-4";
+        let letterClass = "flex-shrink-0 w-8 h-8 rounded-full bg-slate-600 text-white flex items-center justify-center font-bold text-sm";
+        
+        if (!isAnswered) {
+          btn.style.cursor = "pointer";
+          btn.onclick = () => selectOption(opt.key);
+        } else {
+          btn.disabled = true;
+          btnClass = "w-full text-left p-4 rounded-xl border flex items-start gap-4 opacity-60";
+          
+          if (opt.key === q.correct) {
+            btnClass = "w-full text-left p-4 rounded-xl border border-emerald-500 bg-emerald-900/40 flex items-start gap-4";
+            letterClass = "flex-shrink-0 w-8 h-8 rounded-full bg-emerald-500 text-white flex items-center justify-center font-bold text-sm";
+          } else if (opt.key === selectedAnswer && selectedAnswer !== q.correct) {
+            btnClass = "w-full text-left p-4 rounded-xl border border-rose-500 bg-rose-900/40 flex items-start gap-4";
+            letterClass = "flex-shrink-0 w-8 h-8 rounded-full bg-rose-500 text-white flex items-center justify-center font-bold text-sm";
+          }
+        }
+
+        btn.className = btnClass;
+        btn.innerHTML = `
+          <span class="${letterClass}">${opt.key}</span>
+          <span class="pt-1 text-slate-200">${opt.text}</span>
+        `;
+        elOptions.appendChild(btn);
+      });
+    }
+
+    function selectOption(key) {
+      if (isAnswered) return;
+      isAnswered = true;
+      selectedAnswer = key;
+
+      const q = questionsData[currentQIndex];
+      const isCorrect = (key === q.correct);
+
+      if (isCorrect) score++;
+
+      renderOptions(); // Re-render to show colors
+      showFeedback(isCorrect, q.explanation);
+    }
+
+    function showFeedback(isCorrect, explanation) {
+      elFeedbackContainer.classList.remove('hidden');
+      
+      if (isCorrect) {
+        elFeedbackBox.className = "p-6 rounded-2xl border bg-emerald-900/30 border-emerald-500/50 text-emerald-100 mb-6";
+        elFeedbackIcon.innerHTML = `<svg class="w-7 h-7 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>`;
+        elFeedbackTitle.textContent = "Jawaban Kamu Tepat!";
+      } else {
+        elFeedbackBox.className = "p-6 rounded-2xl border bg-rose-900/30 border-rose-500/50 text-rose-100 mb-6";
+        elFeedbackIcon.innerHTML = `<svg class="w-7 h-7 text-rose-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>`;
+        elFeedbackTitle.textContent = "Jawaban Kamu Kurang Tepat";
+      }
+
+      elFeedbackText.innerHTML = `<strong class="font-semibold">Pembahasan:</strong> ${explanation}`;
+    }
+
+    function handleNextQuestion() {
+      if (currentQIndex < questionsData.length - 1) {
+        currentQIndex++;
+        selectedAnswer = null;
+        isAnswered = false;
+        renderQuestion();
+      } else {
+        showResultScreen();
+      }
+    }
+
+    function showResultScreen() {
+      const total = questionsData.length;
+      const finalScore = Math.round((score / total) * 100);
+      
+      elResultScore.textContent = finalScore;
+      elResultCorrect.textContent = score;
+      elResultTotal.textContent = total;
+      
+      elResultCircle.setAttribute('stroke-dasharray', `${finalScore}, 100`);
+
+      if (finalScore >= 80) {
+        elResultMessage.textContent = "Luar biasa! Pemahaman ekonomimu sangat mantap.";
+      } else if (finalScore >= 60) {
+        elResultMessage.textContent = "Kerja bagus! Sedikit lagi menguasai materi keuangan ini.";
+      } else {
+        elResultMessage.textContent = "Terus semangat belajar! Yuk pelajari lagi materi Lembaga Keuangan dan Sistem Pembayaran.";
+      }
+
+      showScreen('result');
+    }
+
+    function goToEssay() {
+      showEssayAnswer = false;
+      renderEssays();
+      showScreen('essay');
+    }
+
+    function renderEssays() {
+      elEssayToggleBtn.textContent = showEssayAnswer ? 'Sembunyikan Kunci Jawaban' : 'Lihat Kunci Jawaban';
+      elEssayContainer.innerHTML = '';
+
+      essaysData.forEach((essay, index) => {
+        const div = document.createElement('div');
+        div.className = "bg-slate-800 border border-slate-700 rounded-xl p-6 md:p-8 shadow-md";
+        
+        let answerBlock = '';
+        if (showEssayAnswer) {
+          answerBlock = `
+            <div class="mt-6 p-5 bg-teal-900/20 border border-teal-500/30 rounded-lg animate-fade-in-up">
+              <h4 class="font-bold text-teal-300 mb-2 flex items-center gap-2">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                Referensi Jawaban:
+              </h4>
+              <div class="text-slate-300 text-sm md:text-base space-y-2">
+                ${essay.answerHTML}
+              </div>
+            </div>
+          `;
+        }
+
+        div.innerHTML = `
+          <div class="flex gap-4">
+            <div class="flex-shrink-0 w-10 h-10 rounded-full bg-slate-700 flex items-center justify-center font-bold text-teal-300">
+              ${index + 1}
+            </div>
+            <div class="w-full">
+              <span class="text-xs font-semibold text-cyan-400 uppercase tracking-wider mb-2 block">${essay.category}</span>
+              <p class="text-lg leading-relaxed text-slate-100 whitespace-pre-wrap">${essay.question}</p>
+              
+              <div class="mt-4">
+                <textarea class="w-full bg-slate-900 border border-slate-600 rounded-lg p-4 text-slate-200 focus:outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500 placeholder-slate-500 min-h-[120px]" placeholder="Ketik jawaban kamu di sini untuk latihan mandiri..."></textarea>
+              </div>
+              
+              ${answerBlock}
+            </div>
+          </div>
+        `;
+        
+        elEssayContainer.appendChild(div);
+      });
+    }
+
+    function toggleEssayAnswers() {
+      showEssayAnswer = !showEssayAnswer;
+      renderEssays();
+    }
+
+    function goHome() {
+      showScreen('start');
+    }
+  </script>
+</body>
+</html>
